@@ -27,6 +27,17 @@ class FavoriteController{
       next(error)
     }
   }
+
+  static async deleteFavorite(req, res, next){
+    try {
+      const { id } = req.params
+      const deleted = await Favorite.delete(id)
+      if(!deleted.deletedCount) throw new Error('Not found')
+      res.status(200).json({ message: 'Deleted' })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 module.exports = FavoriteController
