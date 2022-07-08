@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CardList from "./CardList";
-const FAVORITES_API = 'http://localhost:4001/favorites/'
+const FAVORITES_API = 'https://booksearch-test-app.herokuapp.com/favorites/'
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([])

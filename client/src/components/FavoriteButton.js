@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Swal from 'sweetalert2'
-const FAVORITES_API = 'http://localhost:4001/favorites/'
+const FAVORITES_API = 'https://booksearch-test-app.herokuapp.com/favorites/'
 
 export default function FavoriteButton({ book }){
   const [ localFavorite, setLocalFavorite ] = useState(false)
