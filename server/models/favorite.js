@@ -26,7 +26,7 @@ class Favorite{
 
   static async delete(id){
     try {
-      const response = await this.favorite().deleteOne({ _id: ObjectId(id) })
+      const response = await this.favorite().deleteOne({ id })
       return response
     } catch (error) {
       throw error

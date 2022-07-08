@@ -3,12 +3,12 @@ const Favorite = require('../models/favorite')
 class FavoriteController{
   static async addFavorite(req, res, next){
     try {
-      const { id:BookId, title, thumbnail, authors, rating } = req.body
+      const { id, title, thumbnail, authors, rating } = req.body
 
-      const response = await Favorite.create({ BookId, title, thumbnail, authors, rating })
+      const response = await Favorite.create({ id, title, thumbnail, authors, rating })
       res.status(201).json({
         _id: response.insertedId,
-        BookId,
+        id,
         title,
         thumbnail,
         authors,

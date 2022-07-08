@@ -1,9 +1,25 @@
-import { useState } from "react"
-import Card from "./Card"
+import { useEffect, useState } from "react"
+import CardList from "./CardList"
 
+const FAVORITES_API = 'http://localhost:4001/favorites/'
+const BOOKSEARCH_API = 'https://www.googleapis.com/books/v1/volumes?q='
 
 export default function Main(){
   const [keyword, setKeyword] = useState('')
+  const [favorites, setFavorites] = useState([])
+  const [results, setResults] = useState([])
+
+  useEffect(() => {
+    fetch(FAVORITES_API)
+    .then(response => {
+      if(!response.ok) throw new Error('Fetch failed')
+      return response.json()
+    })
+    .then(favoritesData => {
+      setFavorites(favoritesData)
+    })
+    .catch(error => console.log(error))
+  }, [])
 
   const onChangeHandler = (e) => {
     e.preventDefault()
@@ -13,9 +29,27 @@ export default function Main(){
   const onSubmitHandler = (e) => {
     e.preventDefault()
 
-    fetch('https://www.googleapis.com/books/v1/volumes?q='+keyword)
-    .then(res => res.json())
-    .then(books => console.log(books.items))
+    fetch(BOOKSEARCH_API+keyword)
+    .then(response => {
+      if(!response.ok) throw new Error('Fetch failed')
+      return response.json()
+    })
+    .then(data => {
+      const { items } = data
+      const books = []
+      items.forEach(item => {
+        let favorite = favorites.find(favorite => favorite.BookId === item.id) === undefined ? false : true
+        books.push({
+          id: item.id,
+          title: item.volumeInfo.title,
+          authors: item.volumeInfo.authors,
+          thumbnail: item.volumeInfo.imageLinks === undefined ? "https://www.bastiaanmulder.nl/wp-content/uploads/2013/11/dummy-image-square.jpg" : `${item.volumeInfo.imageLinks.thumbnail}`,
+          rating: item.volumeInfo.averageRating,
+          favorite
+        })
+      })
+      setResults(books)
+    })
     .catch(error => console.log(error))
   }
 
@@ -28,7 +62,7 @@ export default function Main(){
         </form>
       </div>
       <div className="row mx-2 px-5">
-        <Card />
+        <CardList books={results} />
       </div>
     </>
   )
