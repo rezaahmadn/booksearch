@@ -38,7 +38,7 @@ export default function Main(){
       const { items } = data
       const books = []
       items.forEach(item => {
-        let favorite = favorites.find(favorite => favorite.BookId === item.id) === undefined ? false : true
+        let favorite = favorites.find(favorite => favorite.id === item.id) === undefined ? false : true
         books.push({
           id: item.id,
           title: item.volumeInfo.title,
@@ -55,6 +55,7 @@ export default function Main(){
 
   return (
     <>
+      <div className="display-5 my-4 text-center">Welcome to Booksearch</div>
       <div className="mx-2 px-5 py-3">
         <form className="input-group input-group-sm" onSubmit={onSubmitHandler}>
           <input type="text" className="form-control " placeholder="Keyword" onChange={onChangeHandler} value={keyword} required />

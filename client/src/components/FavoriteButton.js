@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Swal from 'sweetalert2'
 const FAVORITES_API = 'http://localhost:4001/favorites/'
 
 export default function FavoriteButton({ book }){
@@ -27,6 +28,13 @@ export default function FavoriteButton({ book }){
     .then(response => {
       console.log(response)
       setLocalFavorite(!localFavorite)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Added to favorite',
+        showConfirmButton: false,
+        timer: 1500
+      })
     })
     .catch(error => console.log(error))
   }
@@ -43,6 +51,13 @@ export default function FavoriteButton({ book }){
     .then(response => {
       console.log(response)
       setLocalFavorite(!localFavorite)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Removed from favorite',
+        showConfirmButton: false,
+        timer: 1500
+      })
     })
     .catch(error => console.log(error))
   }
