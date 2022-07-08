@@ -13,7 +13,10 @@ export default function Main(){
   const onSubmitHandler = (e) => {
     e.preventDefault()
 
-    console.log(keyword)
+    fetch('https://www.googleapis.com/books/v1/volumes?q='+keyword)
+    .then(res => res.json())
+    .then(books => console.log(books.items))
+    .catch(error => console.log(error))
   }
 
   return (
